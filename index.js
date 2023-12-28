@@ -4,7 +4,7 @@ import bodyParser from "body-parser";
 
 const app = express();
 const port = 3000;
-const API_key =  "1c9bbbd4526611b778629d75d72ddabd";
+const API_key =  "Your API Key getting from openweathermap.org";
 var lon, lat, result_1 = 0, result_2 = 0, suggest;
 
 app.use(express.static("public"));
