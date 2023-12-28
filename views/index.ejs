@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprehensive Weather App</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container mt-4">
+    <h1 class="text-center mb-4">Comprehensive Weather App</h1>
+
+    <!-- Weather Search Form -->
+    <form action="/geoLocation" method="POST" class="mb-3">
+        <label for="cityName" class="form-label visually-hidden">City Name:</label>
+        <input type="text" class="form-control" name="cityName" placeholder="Enter city name for weather info" required>
+        <button class="btn btn-primary mt-2" type="submit">Get Weather</button>        
+    </form>
+    <% if (locals.current) { %>
+    <!-- Current Weather Display -->
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5 class="card-title">Current Weather in <%= current.name %>: <span id="currentLocation"><%= current.weather[0].description%></span></h5>
+            <p>Temperature:  <span id="temperature"><%= Math.round(current.main.temp - 273.15) %></span> °C</p>
+            <p>Feels Like: <span id="feelsLike"><%= Math.round(current.main.feels_like - 273.15) %></span> °C</p>
+            <p>Min/Max: <span id="minTemp"><%= Math.round(current.main.temp_min - 273.15) %></span>°C / <span id="maxTemp"><%= Math.round(current.main.temp_max - 273.15) %></span>°C</p>
+            <p>Humidity: <span id="humidity"><%= current.main.humidity%></span>%</p>
+            <p>Visibility: <span id="visibility"><%= current.visibility %></span> meters</p>
+            <p>Wind: <span id="windSpeed"><%= current.wind.speed %></span> km/h, degree <span id="windDirection"><%= current.wind.deg %></span></p>
+        </div>
+    </div>
+
+    <!-- Suggestions Based on Weather -->
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5 class="card-title">Suggestions</h5>
+            <p id="suggestions"><%= suggestions %></p>
+        </div>
+    </div>
+
+    <!-- Weather Forecast -->
+    <!-- Weather Forecast -->
+<% for (let i = 0; i < forecast.list.length; i++) { %>
+    <div class="card mb-3">
+        <div class="card-header">
+            <h5 class="mb-0">
+                <button class="btn btn-link collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#forecastCollapse<%= i %>" aria-expanded="false" aria-controls="forecastCollapse<%= i %>">
+                    <%= forecast.list[i].dt_txt %> Forecast
+                </button>
+            </h5>
+        </div>
+        
+        <div id="forecastCollapse<%= i %>" class="collapse card-body" aria-labelledby="forecastHeading">
+            <h6 class="card-title">Weather on <%= forecast.list[i].dt_txt %></h6>
+            <p>Temperature: <%= Math.round(forecast.list[i].main.temp - 273.15) %>°C</p>
+            <p>Feels Like: <%= Math.round(forecast.list[i].main.feels_like - 273.15) %>°C</p>
+            <p>Min/Max: <%= Math.round(forecast.list[i].main.temp_min - 273.15) %>°C / <%= Math.round(forecast.list[i].main.temp_max - 273.15) %>°C</p>
+            <p>Humidity: <%= forecast.list[i].main.humidity %>%</p>
+            <p>Visibility: <%= forecast.list[i].visibility %> meters</p>
+            <p>Wind: <%= forecast.list[i].wind.speed %> km/h, degree <%= forecast.list[i].wind.deg %></p>
+        </div>
+    </div>
+<% } %>
+
+</div>
+    <% } else { %>
+        <h2>Enter your city</h2>
+    <% } %>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // JavaScript code to interact with the weather API and update the DOM
+</script>
+</body>
+</html>
